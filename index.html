@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css"> 
+
+    <script src="skrypt.js"></script>
+</head>
+<body>
+    <script>
+        var Pilka = function(x, y) {
+            this.x = x;
+            this.y = y;
+        };
+
+        Pilka.prototype.rysuj = function() {
+            var pilkaHtml = '<img src="pilka.png" alt="Piłka">'; 
+
+            this.pilkaElement = $(pilkaHtml); 
+            this.pilkaElement.css({
+                position: "absolute",
+                left: this.x,
+                top: this.y
+            });
+            $("body").append(this.pilkaElement);
+        };
+
+        var pilka1 = new Pilka(20, 10);
+        pilka1.rysuj();
+    </script>
+    <img src="pilka.png">
+</body>
+</html>
