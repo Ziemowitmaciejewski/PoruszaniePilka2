@@ -18,26 +18,28 @@
     </style>
 </head>
 <body>
-    <img id="ball" src="pilka.png" alt="Ball">
+    <img id="grass" src="boisko.jpg" alt="boisko">
+    <img id="attacker" src="pilka.png" alt="attacker">
+    <img id="defender" src="Ramos.png" alt="defender">
 
     <script>
         
         let x = window.innerWidth / 2;
         let y = window.innerHeight / 2; 
 
-        const ball = document.getElementById('ball');
+        const ball = document.getElementById('attacker');
 
         
-        updateBallPosition();
+        updateAttackerPosition();
 
-        function updateBallPosition() {
+        function updateAttackerPosition() {
             ball.style.left = x + 'px';
             ball.style.top = y + 'px';
         }
 
         
         document.addEventListener('keydown', function(event) {
-            const step = 5;
+            const step = 15;
 
             switch (event.key) {
                 case 'ArrowUp':
@@ -47,10 +49,32 @@
                     y += step; 
                     break;
                 case 'ArrowLeft':
-                    x -= step; 
+                    x -= step;
+                    attacker.style.transform = "scaleX(-1)"; 
                     break;
                 case 'ArrowRight':
-                    x += step; 
+                    x += step;
+                    attacker.style.transform = "scaleX(1)"; 
+                    break;
+                case 'ArrowUp'||"ArrowRight":
+                    y -=step;
+                    x +=step;
+                    attacker.style.transform = "scaleX(1)";
+                    break;
+                case 'ArrowDown'||"ArrowRight":
+                    y +=step;
+                    x +=step;
+                    attacker.style.transform = "scaleX(1)";
+                    break;
+                case 'ArrowUp'||"ArrowLeft":
+                    y -=step;
+                    x -=step;
+                    attacker.style.transform = "scaleX(-1)";
+                    break;  
+                case 'ArrowDown'||"Arrowleft":
+                    y +=step;
+                    x -=step;
+                    attacker.style.transform = "scaleX(-1)";
                     break;
             }
 
@@ -59,8 +83,73 @@
             y = Math.max(0, Math.min(y, window.innerHeight - 50));
 
             
-            updateBallPosition();
+            updateAttackerPosition();
         });
+        </script>
+        <script>
+        let a = window.innerWidth / 3;
+        let b = window.innerHeight / 3; 
+
+        const defender = document.getElementById('defender');
+
+        
+        updateDefenderPosition();
+
+        function updateDefenderPosition() {
+            defender.style.left = a + 'px';
+            defender.style.top = b + 'px';
+        }
+
+        
+        document.addEventListener('keydown', function(event) {
+            const step = 15;
+
+            switch (event.key) {
+                case 'W':
+                    b -= step; 
+                    break;
+                case 'S':
+                    b += step; 
+                    break;
+                case 'A':
+                    a -= step;
+                    defender.style.transform = "scaleX(-1)"; 
+                    break;
+                case 'D':
+                    a += step;
+                    defender.style.transform = "scaleX(1)"; 
+                    break;
+                case 'W'||"D":
+                    b -=step;
+                    a +=step;
+                    defender.style.transform = "scaleX(1)";
+                    break;
+                case 'S'||"D":
+                    b +=step;
+                    a +=step;
+                    defender.style.transform = "scaleX(1)";
+                    break;
+                case 'W'||"A":
+                    b -=step;
+                    a -=step;
+                    defender.style.transform = "scaleX(-1)";
+                    break;  
+                case 'S'||"A":
+                    b +=step;
+                    a -=step;
+                    defender.style.transform = "scaleX(-1)";
+                    break;
+            }
+
+            
+            a = Math.max(0, Math.min(x, window.innerWidth - 50));
+            b = Math.max(0, Math.min(y, window.innerHeight - 50));
+
+            
+            updateDefenderPosition();
+        });
+        
+
     </script>
 </body>
 </html>
