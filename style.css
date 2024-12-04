@@ -4,8 +4,8 @@ body {
 }
 #attacker {
     position: absolute;
-    width: 200px; 
-    height: 80px;
+    width: 150px; 
+    height: 60px;
 }
 #grass{
     width: 1980px;
@@ -15,4 +15,7 @@ body {
     position: absolute;
     width: 200px; 
     height: 80px;
+}
+#collisionTimer{
+    text-align: center;
 }
