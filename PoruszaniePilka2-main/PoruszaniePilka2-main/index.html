@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Strzlanie gola</title>
+    <style>
+        #collisionTimer {
+            position: absolute;
+            top: 40px;
+            text-align: center;
+            width: 100%;
+            padding: 10px 20px;
+            font-size: 30px;
+            color: white;
+        }
+        #instruction {
+            position: absolute;
+            text-align: center;
+            top: 90px; 
+            left: 20px;
+            width: 100%;
+            font-size: 30px;
+            color: white; 
+        }
+    </style>
+</head>
+<body>
+    <img id="grass" src="boisko.jpg" alt="boisko" style="position:absolute; width:100%; height:100%;">
+    <img id="attacker" src="pilka.png" alt="attacker">
+    <img id="defender" src="Ramos.png" alt="defender">
+    <h1>Złap Messiego</h1>
+  
+    <div id="collisionTimer">Czas posiadania piłki: 0s</div>
+    <div id="instruction">Dogoń Messiego!!!</div> 
+
+    <script>
+        let attackerX = window.innerWidth / 2;
+        let attackerY = window.innerHeight / 2;
+        const attacker = document.getElementById('attacker');
+
+        let defenderX = window.innerWidth / 3;
+        let defenderY = window.innerHeight / 3; 
+        const defender = document.getElementById('defender');
+
+        let gameActive = true; 
+        let lastCollisionTime = Date.now(); 
+        let collisionTimer;
+
+        const collisionTimerDisplay = document.getElementById('collisionTimer');
+
+        function updateAttackerPosition() {
+            attacker.style.left = attackerX + 'px';
+            attacker.style.top = attackerY + 'px';
+        }
+
+        function updateDefenderPosition() {
+            defender.style.left = defenderX + 'px';
+            defender.style.top = defenderY + 'px';
+        }
+
+        function startTimer() {
+            collisionTimer = setInterval(() => {
+                const secondsSinceLastCollision = Math.floor((Date.now() - lastCollisionTime) / 1000);
+                collisionTimerDisplay.textContent = `Czas posiadania piłki: ${secondsSinceLastCollision}s`;
+            }, 1000);
+        }
+
+        function resetGame() {
+            attackerX = window.innerWidth / 2;
+            attackerY = window.innerHeight / 2;
+            defenderX = window.innerWidth / 3;
+            defenderY = window.innerHeight / 3;
+            gameActive = true;
+            lastCollisionTime = Date.now();
+            updateAttackerPosition();
+            updateDefenderPosition();
+            collisionTimerDisplay.textContent = `Czas posiadania piłki: 0s`;
+            clearInterval(collisionTimer);
+            startTimer(); 
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (!gameActive) return; 
+            const step = 15;
+            const step1 = 10;
+
+            switch (event.key) {
+                case 'ArrowUp':
+                    attackerY = Math.max(0, attackerY - step); 
+                    break;
+                case 'ArrowDown':
+                    attackerY = Math.min(window.innerHeight - 50, attackerY + step); 
+                    break;
+                case 'ArrowLeft':
+                    attackerX = Math.max(0, attackerX - step);
+                    attacker.style.transform = "scaleX(-1)"; 
+                    break;
+                case 'ArrowRight':
+                    attackerX = Math.min(window.innerWidth - 50, attackerX + step);
+                    attacker.style.transform = "scaleX(1)"; 
+                    break;
+            }
+
+            switch (event.key) {
+                case 'w':
+                
+                    defenderY = Math.max(0, defenderY - step1);
+                    break;
+                case 's':
+                case 'S':
+                    defenderY = Math.min(window.innerHeight - 50, defenderY + step1);
+                    break;
+                case 'a':
+                case 'A':
+                    defenderX = Math.max(0, defenderX - step1);
+                    defender.style.transform = "scaleX(-1)"; 
+                    break;
+                case 'd':
+                case 'D':
+                    defenderX = Math.min(window.innerWidth - 50, defenderX + step1);
+                    defender.style.transform = "scaleX(1)"; 
+                    break;
+            }
+
+            updateAttackerPosition();
+            updateDefenderPosition();
+            checkCollision();
+        });
+
+        function checkCollision() {
+            const attackerRect = attacker.getBoundingClientRect();
+            const defenderRect = defender.getBoundingClientRect();
+
+            if (
+                attackerRect.x < defenderRect.x + defenderRect.width &&
+                attackerRect.x + attackerRect.width > defenderRect.x &&
+                attackerRect.y < defenderRect.y + defenderRect.height &&
+                attackerRect.y + attackerRect.height > defenderRect.y
+            ) {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            gameActive = false; 
+            lastCollisionTime = Date.now();
+            alert("Brawo, doginiłeś pchłe!"); 
+            resetGame();
+        }
+
+        resetGame();
+    </script>
+</body>
+</html>
